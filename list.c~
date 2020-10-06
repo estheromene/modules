@@ -1,0 +1,52 @@
+#include <stdlib.h>
+
+/* 
+ * list.c -- implements list.h
+ */
+#include <stdint.h>
+
+#define MAXREG 10
+
+/* the representation of a car */
+typedef struct car {
+	struct car *next;
+	char plate[MAXREG];
+	double price;
+	int year;
+} car_t;
+
+static car_t *front = NULL;
+
+/* put(): place a car at the beginning of the list
+ * returns 0 if successful; nonzero otherwise 
+ */
+int32_t lput(car_t *cp) {
+  if(front == NULL) {
+    return 0;
+  }
+  cp->next = front->next;
+  front = cp;
+  if(front == cp) {
+    return 0;
+  }
+  else {
+    return -1;
+  }
+}
+  
+/* get(): remove and return the first car in the list;
+ * return NULL if the list is empty
+ */
+car_t *lget() {
+  if(front == NULL) {
+    return NULL;
+  }
+  car_t *p1 = malloc(sizeof(front));
+  p1 = front;
+  car_t *pn = malloc(sizeof(front));
+  pn = front->next;
+  free(front);
+  front = pn;
+  return p1;
+}
+  
